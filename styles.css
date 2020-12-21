@@ -1,0 +1,495 @@
+/*Global styles*/
+
+*,
+*::before   /*Universal selector*/
+*::after{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+html{
+    font-family: 'Nunito', sans-serif;
+    font-size: 10px;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+}
+
+ul{
+    list-style: none
+}
+
+p{
+    font-size: 1.6rem;
+}
+
+img{
+    width:100%;
+    max-width: 100%;/*this way they wont overflow they containers*/
+    height:auto;
+}
+
+section{
+    padding: 5rem 0;
+}
+
+/*body{
+    background-color: cornflowerblue;
+}*/
+
+/*Header*/
+header{
+    width: 100%;
+    height: 5rem;
+    position: absolute;
+    top: 0;
+    left:0;
+    z-index: 1;
+}
+
+.container{
+    width: 100%;
+    max-width: 98rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+
+}
+
+nav{
+    width: 100%;
+    display:flex;
+    align-items: center;
+    justify-content: space-between;  /*Get space between everything in the nav*/
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,.2)
+}
+
+.nav-brand{
+    width: 2.5rem;
+}
+
+.menu-icons i{
+    padding-right: 5rem;
+    font-size: 3.5rem;
+    color: #fafafa;
+    cursor: pointer; /*Make it as if it was clickable*/
+    background: fixed;
+}
+
+.close i{
+    color: red;
+}
+
+.nav-list{
+    width: 25rem;
+    height: 100vh;
+    background-color: #d7d4ed;
+    position: fixed;
+    top: 0;
+    right: -30rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1500; /*stay on top of everything*/
+    transition: all 650ms ease-in-out; /*When transitions come they are done smothly*/
+}
+
+.nav-list.active{
+    right: 0;
+}
+
+.close{
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+}
+
+.nav-item{              /*we want that seperation*/
+    margin: 1.5rem 0;
+}
+
+.nav-link{
+    font-size: 1.6rem;
+    text-transform: uppercase;
+    color: rgba(0,0,0,.7);
+}
+
+/*hero*/
+.hero{
+    width: 100%;
+    height: 80vh;
+    background: linear-gradient(135deg, rgba(49,24,131,0.9) 0% , rgba(72, 56, 149, 0.8) 100%), url("images/header-bg.jpg") center no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.hero::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom:0;
+    width: 100%;
+    height:5.7rem;
+    background: url("images/wave-small.png");
+    background-size:cover;
+}
+
+.main-message{
+    width:100%;
+    max-width: 50rem;
+    color: #fafafa;
+    /*text-transform: uppercase;*/
+    transform: translateY(20%); /*move it down y*/
+}
+
+.main-message h3{
+    font-size: 1.6rem;
+}
+
+.main-message h1{
+    font-size: 4rem;
+    font-family: 'Aldrich', sans-serif;
+}
+
+/*.picture_happy{
+    width:35%;
+    height:35%;
+    object-fit: cover;
+    transform: translateY(-35%);
+    padding-left:70rem;
+    opacity: 8%;
+}
+
+.picture_happy h1{
+    color: white;
+    z-index: -1;
+}*/
+
+.btn{
+    background-color: #eb648c;
+    border-radius: 2rem;
+    color: #fafafa;
+    display: inline-block;
+    margin-top: 2rem;
+    padding: 1rem 2.5rem;
+}
+
+.btn:hover{
+    background-color: #ce587b
+}
+
+/*Experience*/
+experience-thrill{
+    padding:0;
+}
+
+.title-heading{
+    text-align: center;
+    margin-bottom: 10rem;
+    color: rgba(0,0,0,.7);
+}
+
+.title-heading h3{
+    font-size: 2rem;
+}
+
+.title-heading h1{
+    font-family: 'Aldrich, sans-serif'
+    /*text-transform: uppercase;*/
+    font-size: 3rem;
+    margin: .5rem 0 1rem;
+}
+
+.title-heading p{
+    font-size: 1.2rem;
+}
+
+.activities-grid{
+    /*create a grid that collapses once it doesnt have enough space.... hence makeing it responsive without adding media queries for it*/
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    grid-gap: 2.5rem;
+}
+
+.activities-grid-item{
+    height: 40rem;
+    paddind: 5rem;
+    /*color: #fafafa;*/
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1;
+    text-align: center;
+}
+
+/*the overlay,,,, a pseudo element*/
+.activities-grid-item::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left:0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(49,24,131,0.9) 0% , rgba(72, 56, 149, 0.8) 100%);
+    z-index: -1;
+}
+
+.star-gazing{
+    background: url("images/stars.jpg");
+}
+
+.star-hiking{
+    background: url("images/stars.jpg");
+}
+
+.star-camping{
+    background: url("images/stars.jpg");
+}
+
+.activities-grid-item i{
+    font-size: 4rem;
+    color: #eb648c;
+}
+
+.activities-grid-item h1{
+    font-family: 'Aldrich', sans-serif;
+    font-size: 4rem;
+    color: #eb648c;
+    margin: 2rem 0;
+}
+
+
+/*Testimonials*/
+.testimonials{
+    width: 100%;
+    height: 80vh;
+    background: linear-gradient(135deg, rgba(49,24,131,0.9) 0% , rgba(72, 56, 149, 0.8) 100%), url("images/testimonials-bg.jpg") center no-repeat fixed;
+    background-size: cover;
+    position: relative;
+    margin-top: 10rem;
+}
+
+.testimonials::before{
+    content:"";
+    position: absolute;
+    top:0;
+    left:0;
+    width: 100%;
+    /*height: .7rem;*/
+    background: url("images/wave-small.png") center no-repeat;
+    background-size: cover;
+}
+
+.testimonial{
+    width: 100%;
+    color: #fafafa;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /*background-size: cover;*/
+    text-align: center;
+}
+
+.testimonial-text-box{
+    padding: 0 1.5rem;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.testimonial-text-box i{
+    position: absolute;
+    top: -8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 8rem;
+    color: #eb648c;
+    opacity: .5;
+    z-index: -1;
+}
+
+.prof-pic{
+    padding-left:32rem;
+    padding-top: 20rem;
+}
+
+.prof-pic img{
+    width: 35rem;
+    height: 35rem;
+    object-fit: cover;
+    /*border-radius: 100%;*/
+    border: 1px solid #eb648c;
+}
+
+.prof-pic h1{
+    /*font-family: 'Aldrich', sans-serif;*/
+    padding-left: 15rem;
+    z-index: -1;
+}
+
+/*begin adventures*/
+.adventures-grid{
+    /*create a grid that collapses once it doesnt have enough space.... hence makeing it responsive without adding media queries for it*/
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    grid-gap: 2.5rem;
+    margin-bottom: 2rem:;
+}
+
+.adventures-grid-item p{
+    color: rgba(0,0,0,0.7);
+
+}
+
+footer {
+    padding: 2.5rem 0;
+    background-color: #d7d4ed;
+    text-align: center;
+    color: rgba(0,0,0,0.7);
+}
+
+
+/*Media Queries*/
+@media screen and (min-width: 350px){
+    .main-message{
+        transform: translateY(40%);
+    }
+}
+
+@media screen and (min-width: 470px){
+    .hero::before{
+        height: 9.4rem;
+        background:url("images/wave-medium.png");
+    }
+
+        .testimonials::before{
+        height: 9.4rem;
+        background:url("images/wave-medium-reversed.png");
+    }
+
+.prof-pic{
+    padding-left:4rem;
+    padding-top: 20rem;
+}
+}
+
+@media screen and (min-width: 700px){
+    header{
+        height: 8rem;
+    }
+
+    .nav-brand{
+        width: 3.5rem;
+    }
+
+    .nav-list{
+        width: initial;
+        height: initial;
+        background-color: transparent;
+        position: initial;
+        top: initial;
+        right: initial;
+        flex-direction: row;
+        transition: initial;
+    }
+
+    .menu-icons{
+        display: none;
+    }
+
+    .nav-item{
+        margin: 0 2.5rem;
+    }
+
+    .nav-link,
+    .current{
+        color: #fafafa;
+        position: relative;
+        font-size: 1.3rem;
+    }
+
+    .nav-link::before,
+    .current::before{
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -0.5rem;
+        background-color: #eb648c;
+        width: 100%:
+        height: 2px;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 650ms;
+    }
+
+    .current::before{
+        transform: scaleX(1);
+    }
+
+    .nav-link:hover::before{
+        transform: scaleX(1);
+    }
+
+    .hero{
+        height: 60vh;
+    }
+
+    .main-message{
+        transform: translateY(70%);
+    }
+
+    .prof-pic{
+    padding-left:16rem;
+    padding-top: 20rem;
+    }
+
+}
+
+@media screen and (min-width: 950px){
+    /*modify imGES prof pic*/
+    .prof-pic{
+    padding-left:32rem;
+    padding-top: 20rem;
+    }
+
+}
+
+@media screen and (min-width: 1200px){
+    .hero{
+        height: 75vh;
+    }
+}
+
+/* Style all font awesome icons */
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 50px;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Add a hover effect if you want */
+.fa:hover {
+  opacity: 0.7;
+}
+
+/* Set a specific color for each brand */
+
+/* Facebook */
+.fa-facebook {
+  background: #3B5998;
+  color: white;
+}
+
+/* Twitter */
+.fa-twitter {
+  background: #55ACEE;
+  color: white;
+}
