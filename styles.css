@@ -434,6 +434,7 @@ footer {
 
     .nav-link:hover::before{
         transform: scaleX(1);
+        color:red;
     }
 
     .hero{
