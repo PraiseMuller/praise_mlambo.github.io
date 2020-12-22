@@ -432,7 +432,7 @@ footer {
         transform: scaleX(1);
     }
 
-    .nav-link:hover::before{
+    .nav-link:hover{
         transform: scaleX(1);
         color:red;
     }
