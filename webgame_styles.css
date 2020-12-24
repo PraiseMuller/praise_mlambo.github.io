@@ -1,0 +1,27 @@
+/*edited, this whole css file wasnt here*/
+
+body{
+     background: linear-gradient(135deg, rgba(49,24,131,0.9) 0% , rgba(72, 56, 149, 0.8) 100%), url("images/header-bg.jpg") center no-repeat;
+}
+a{
+    color: white;
+}
+
+.mine{
+    text-align: center;
+    font-family: 'Aldrich', sans-serif;
+    color: #ABB2B9;
+    text-transform: uppercase;
+}
+
+footer {
+    padding: 1.5rem 0;
+    background-color: #d7d4ed;
+    text-align: center;
+    font-size: 16px;
+    color: rgba(0,0,0,0.7);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 1.5rem;            /* Footer height */
+}

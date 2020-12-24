@@ -1,0 +1,321 @@
+
+ function _init()
+ cls()
+
+ radius=2
+ radius_dr = 1
+ col=8
+  
+ brickx = {}
+ bricky = {}
+ brickv = {}
+ brickh = 3
+ brickw = 10
+ 
+ bullet = {}
+ 
+ buildbricks()
+
+ padx = 30
+ pady = 120
+ padw = 20
+ padh = 2
+ pad_col = 7
+
+ pad_dx = 0  --the pad acceleration
+
+ mode="start"
+end
+
+function _update60()
+
+	
+	add_new_bullets()
+	--draw particles
+	for b in all(bullet) do
+		b:update()
+	end
+
+
+ if mode=="game" then
+  update_game()
+ elseif mode=="start" then
+  update_start()
+ elseif mode=="gameover" then
+  update_gameover()
+ end
+end
+
+function update_start()
+ if btn(4) then  --to start game press x
+  startgame()
+ end 
+end
+
+function startgame()
+ mode="game"
+ lives = 3
+ serveball()
+ score = 0
+end  
+
+function gameover()
+ mode="gameover"
+ 
+end
+
+function serveball()
+ ballx=20
+ ball_dx=1
+ bally=50
+ ball_dy=1
+end
+
+function buildbricks()
+ local i
+ for i = 1,66 do
+  add(brickx,4+((i-1)%10)*(brickw+2))--draw bricks with spce btwn em
+  add(bricky,20+flr((i-1)/11)*(brickh+2))
+  add(brickv,true)
+ end 
+end
+
+function update_gameover()
+ if btn(4) then
+  startgame()
+ end
+end
+
+function update_game()
+
+ local buttpress=false
+ local nextx,nexty
+
+ --pressing buttuns
+ if btn(0) then --left
+  pad_dx = -2
+  buttpress=true
+ end
+ 
+ if btn(1) then
+  pad_dx = 2
+  buttpress=true
+ end
+ 
+ --if no button pressd slow
+ --down the pad
+ if not(buttpress) then
+  pad_dx = pad_dx/1.75
+ end
+
+	padx+= pad_dx --pad moving now
+ padx = mid(0,padx,127-padw) --make sure pad is within bounds
+
+	nextx = ballx + ball_dx
+	nexty = bally + ball_dy
+--	radius = radius + radius_dr
+
+ if nextx>124 or nextx<3 then
+  nextx=mid(o,nextx,127)
+  ball_dx = -ball_dx
+  sfx(0)
+ end
+ 
+ if nexty<10 then
+  nexty=mid(o,nexty,127)
+  ball_dy = -ball_dy
+  sfx(0)
+ end
+ 
+ --check if ball collides 
+ --with pad.. then do smtng
+ pad_col=7
+ if ball_box(nextx,nexty,padx,pady,padw,padh) then
+  --find out in which directn to deflect
+  if deflx_ballbox(ballx,bally,ball_dx,ball_dy,padx,pady,padw,padh) then
+   ball_dx = -ball_dx
+  else
+   ball_dy = -ball_dy
+  end
+  sfx(2)  
+  score+=1     
+ end
+ 
+ --brick collision with ball
+ for i = 1,#brickx do
+  if brickv[i] and  ball_box(nextx,nexty,brickx[i],bricky[i],brickw,brickh) then  --find out in which directn to deflect
+   if deflx_ballbox(ballx,bally,ball_dx,ball_dy,brickx[i],bricky[i],brickw,brickh) then
+    ball_dx = -ball_dx
+   else
+    ball_dy = -ball_dy
+   end
+   sfx(4) 
+   brickv[i] = false 
+   score+=10    
+  end
+ end
+ 
+ ballx=nextx
+ bally=nexty
+ 
+ if nexty>127 then
+  sfx(3)
+  lives-=1
+  if lives<0 then
+   gameover()
+  else
+   serveball()
+  end
+ end
+end
+
+function _draw()
+
+ if mode=="game" then
+  draw_game()
+ elseif mode=="start" then
+  draw_start()
+ elseif mode=="gameover" then
+  draw_gameover()
+ end
+end
+
+function draw_start()
+ cls(2)
+ if btn(1) or btn(0) then 
+ 	trippy()
+ end
+ --draw particles
+	for b in all(bullet) do
+		b:draw()
+	end
+	skull()
+ print("★skull crusher★",30,40,9)
+ print("press z to start",25,80,13)
+ print("dont press ⬅️ or ➡️ :-)",15,88,8) 
+ print("--by praise mlambo--",20,120,13) 
+end
+
+function draw_gameover()
+ rectfill(0,60,128,72,13)
+ --draw particles
+	for b in all(bullet) do
+		b:draw()
+	end
+ print("game over",45,61,7)
+ print("press z to restart",30,70,6)
+ print("--by praise mlambo--",20,120,13) 
+end
+
+
+function draw_game()
+ local i
+ cls(2)
+ circfill(ballx,bally,radius,col)
+ rectfill(padx,pady,padx+padw,pady+padh,pad_col) 
+ --draw brikcs 
+ for i = 1, #brickx do
+  if brickv[i] then
+   rectfill(brickx[i],bricky[i],brickx[i]+brickw,bricky[i]+brickh,4)
+  end
+ end
+ 
+ rectfill(0,0,128,7,4)
+ print("lives:"..lives,0,2,7)
+ print("score:"..score,40,2,7)
+end
+
+--fuction for ball collision
+--with pad
+function ball_box(bx,by,x,y,w,h)
+ if by+radius<y then return false end
+ if by-radius>y+h then  return false end
+ 
+ if bx+2*radius<x then  return false end
+ if bx>x+w then  return false end 
+ return true
+end
+
+function deflx_ballbox(bx,by,bdx,bdy,tx,ty,tw,th)
+ local slp = bdy / bdx
+ local cx, cy
+ if bdx==0 then
+  return false
+ elseif bdy==0 then
+  return true
+ elseif slp > 0 and bdx > 0 then
+  cx = tx - bx
+  cy = ty - by
+  return cx>0 and cy/cx < slp
+ elseif slp < 0 and bdx > 0 then
+  cx = tx - bx
+  cy = ty + th - by
+  return cx>0 and cy/cx>=slp
+ elseif slp > 0 and bdx < 0 then 
+  cx = tx + tw - bx
+  cy = ty + th - by
+  return cx<0 and cy/cx<=slp
+ else
+  cx = tx + tw - bx
+  cy = ty - by
+  return cx<0 and cy/cx>=slp
+ end  
+end
+################################################################################
+
+--add bullets
+
+function add_new_bullets()
+	add(bullet,{
+		x = rnd(88)-1,
+		y = rnd(88)-1,
+		dx = rnd(2)-1,
+		dy = rnd(2)-1,
+		life = 100,
+		col = rnd(15)-1,
+		draw = function(self)
+			pset(self.x, self.y, col)
+		end,
+		
+		update = function(self)
+			self.x += self.dx
+			self.y += self.dy
+			
+			self.life-=1
+			
+			if self.life<0 then
+				del(bullet,self) 
+			end
+		end,
+ })
+end
+
+################################################################################
+function trippy()
+d={30583.5,-17476.5,-8738.5,-4369.5}t=0::_::
+t+=0.5
+q=circfill
+cls(6)
+for l=1,8 do
+ for i=1,4 do
+  fillp(d[i])q(64,64,32-i*4,0x71)q(64+cos(l/8+i/32)*48,64+sin(l/8+i/32)*48,4)
+ end
+end
+fillp()
+for j=1,31 do
+ v=j*4-t%256+128
+ rectfill(v,0,v+2,128,1)
+end
+flip()
+goto _
+end
+
+################################################################################
+
+--zoom skull sprite
+
+function skull()
+	sspr(8,0,8,8,57,60)
+end
+
+################################################################################
